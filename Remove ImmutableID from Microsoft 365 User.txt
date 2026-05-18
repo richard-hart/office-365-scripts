@@ -1,0 +1,41 @@
+
+### Remove ImmutableID from Microsoft 365 User
+
+In Microsoft Graph PowerShell (replace UPN):
+
+Connect-MgGraph -Scopes "User.ReadWrite.All", "Directory.AccessAsUser.All"
+
+Update-MgUser -UserId "john@abc.com" -OnPremisesImmutableId $null
+
+Note: Do not use the old MSOL module. Graph is the modern and supported method.
+
+3. Confirm It Was Removed
+Get-MgUser -UserId "john@abc.com" -Property OnPremisesImmutableId | Select OnPremisesImmutableId
+
+You should see:
+
+OnPremisesImmutableId
+
+----------------------
+
+(null)
+
+4. Create / Restore the User in on-premises AD
+If creating a new account from scratch, make sure the UserPrincipalName (UPN) and proxyAddresses match exactly to the Microsoft 365 user. Otherise, restore the user from ADAC
+
+5. Get New ImmutableID from New AD User
+$user = Get-ADUser -Filter "UserPrincipalName -eq 'john@abc.com'"
+
+6. Generate the new Base64 ImmutableID tied to the AD account
+$immutableId = [Convert]::ToBase64String($user.ObjectGUID.ToByteArray())
+
+7. Set This ImmutableID Back to the M365 User
+Update-MgUser -UserId "john@abc.com" -OnPremisesImmutableId $immutableId
+
+Now the M365 user is hard-matched to the new AD account.
+
+
+##### Optional - this might not be necessary #####
+
+Write back to ms-ds-consistencyguid
+Set-ADUser -Identity $user -Replace @{"ms-ds-consistencyguid" = $immutableId}
