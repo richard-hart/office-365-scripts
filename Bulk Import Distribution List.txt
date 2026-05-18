@@ -1,0 +1,2 @@
+
+import-csv c:\temp\members.csv | foreach {Add-DistributionGroupMember -Identity "DistributionGroup" -Member $_.email -Confirm:$false -ErrorAction SilentlyContinue}
