@@ -1,0 +1,2 @@
+
+Get-DynamicDistributionGroupMember -identity "Temp users" -resultsize unlimited | select Name, DisplayName, PrimarySmtpAddress, RecipientTypeDetails | Export-Csv c:\temp\list.csv
