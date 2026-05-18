@@ -1,0 +1,12 @@
+
+
+https://forms.office.com/Pages/delegatepage.aspx?originalowner=john@abc.com
+
+
+originalowner = Email address of the form owner that has left your organization and/or whose account has been disabled. 
+For example, if the form owner ("Jason Fabian") left your organization ("Contoso"), your workaround URL would look like this: 
+
+https://forms.office.com/Pages/delegatepage.aspx?originalowner=JasonFabian@contoso.com
+
+Note:
+If using the user's email address as the original owner parameter does not produce results, please substitute it with the user's Object ID in the URL above, and then attempt the process again.
