@@ -1,0 +1,3 @@
+Import-CSV -Path C:\temp\contacts.csv | ForEach {
+    Remove-MailContact -identity $_.UserPrincipalName
+}
